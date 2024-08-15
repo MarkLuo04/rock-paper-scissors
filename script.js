@@ -1,19 +1,8 @@
 let humanScore = 0
 let computerScore = 0
 
-// User selects option
-function getHumanChoice() {
-    let choice = "";
-    while (true) {
-        choice = prompt("Rock, Paper, or Scissors?").toLowerCase();
-        if (choice === "rock" || choice === "paper" || choice === "scissors") {
-            break;  
-        } else {
-            console.log("Invalid choice. Please try again.");
-        }
-    }
-    return choice;
-}
+const resultsDiv = document.getElementById("results");
+const scoreDiv = document.getElementById("score");
 
 // Random number generator
 function getRandomInt(max) {
@@ -37,47 +26,67 @@ function getComputerChoice() {
 
 // Plays a round of Rock Paper Scissors. Calculates score based on winner
 function playRound(humanChoice, computerChoice) {
+    let result = "";
 
     if (humanChoice === computerChoice) {
-        console.log(`It's a tie! Both chose ${humanChoice}.`);
+        result = `It's a tie! Both chose ${humanChoice}.`;
     } else if (
         (humanChoice === "rock" && computerChoice === "scissors") ||
         (humanChoice === "paper" && computerChoice === "rock") ||
         (humanChoice === "scissors" && computerChoice === "paper")
     ) {
         humanScore++;
-        console.log(`You win! ${humanChoice.charAt(0).toUpperCase() + humanChoice.slice(1)} beats ${computerChoice}.`);
+        result = `You win! ${humanChoice.charAt(0).toUpperCase() + humanChoice.slice(1)} beats ${computerChoice}.`;
     } else {
         computerScore++;
-        console.log(`You lose! ${computerChoice.charAt(0).toUpperCase() + computerChoice.slice(1)} beats ${humanChoice}.`);
+        result = `You lose! ${computerChoice.charAt(0).toUpperCase() + computerChoice.slice(1)} beats ${humanChoice}.`;
+    }
+
+    resultsDiv.textContent = result;
+    scoreDiv.textContent = `User: ${humanScore} | Computer: ${computerScore}`;
+
+    if (humanScore === 5 || computerScore === 5) {
+        determineWinner();
     }
 }
+
 
 // Determines winner based on score
 function determineWinner() {
-    console.log("Final Scores:");
-    console.log(`Human: ${humanScore}`);
-    console.log(`Computer: ${computerScore}`);
-    
+    let finalMessage = "";
     if (humanScore > computerScore) {
-        console.log("Congratulations! You won!");
-    } else if (computerScore > humanScore) {
-        console.log("The computer wins this time. Better luck next time!");
+        finalMessage = "Congratulations, you reached a score of 5! You won the game!";
+    } else {
+        finalMessage = "The computer wins the game by reaching a score of 5. Better luck next time!";
     }
+
+    resultsDiv.textContent = finalMessage;
+
+    humanScore = 0;
+    computerScore = 0;
+    scoreDiv.textContent = `Human: ${humanScore} | Computer: ${computerScore}`;
 }
 
-// 5 rounds of RPS
-function playGame() {
-    for(let i = 0; i < 5; i++) {
-        const humanSelection = getHumanChoice();
-        const computerSelection = getComputerChoice();
-        playRound(humanSelection, computerSelection);
-    }
-    determineWinner();
+
+function handleClick(event) {
+    const humanChoice = event.target.id;
+    const computerChoice = getComputerChoice();
+    playRound(humanChoice, computerChoice);
+
 }
 
-// Runs game
-playGame();
+
+const rockBtn = document.querySelector("#rock");
+const paperBtn = document.querySelector("#paper");
+const scissorsBtn = document.querySelector("#scissors");
+
+rockBtn.addEventListener("click", handleClick);
+paperBtn.addEventListener("click", handleClick);
+scissorsBtn.addEventListener("click", handleClick);
+
+
+
+
 
 
 
