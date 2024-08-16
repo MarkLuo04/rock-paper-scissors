@@ -36,10 +36,10 @@ function playRound(humanChoice, computerChoice) {
         (humanChoice === "scissors" && computerChoice === "paper")
     ) {
         humanScore++;
-        result = `You win! ${humanChoice.charAt(0).toUpperCase() + humanChoice.slice(1)} beats ${computerChoice}.`;
+        result = `You gained a point! ${humanChoice.charAt(0).toUpperCase() + humanChoice.slice(1)} beats ${computerChoice}.`;
     } else {
         computerScore++;
-        result = `You lose! ${computerChoice.charAt(0).toUpperCase() + computerChoice.slice(1)} beats ${humanChoice}.`;
+        result = `Your opponent gains a point. ${computerChoice.charAt(0).toUpperCase() + computerChoice.slice(1)} beats ${humanChoice}.`;
     }
 
     resultsDiv.textContent = result;
@@ -55,9 +55,9 @@ function playRound(humanChoice, computerChoice) {
 function determineWinner() {
     let finalMessage = "";
     if (humanScore > computerScore) {
-        finalMessage = "Congratulations, you reached a score of 5! You won the game!";
+        finalMessage = "Congratulations, you won the game!";
     } else {
-        finalMessage = "The computer wins the game by reaching a score of 5. Better luck next time!";
+        finalMessage = "The computer wins the game. Better luck next time!";
     }
 
     resultsDiv.textContent = finalMessage;
